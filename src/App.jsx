@@ -2,20 +2,36 @@ import React, { useState } from 'react';
 import ProductList from './components/ProductList';
 
 const App = () => {
-  // TODO: Define initial product data
+  // Define initial product data matching db.json
+  const [products, setProducts] = useState([
+    { id: 1, name: 'Laptop', price: '$999', inStock: true },
+    { id: 2, name: 'Phone', price: '$699', inStock: false },
+    { id: 3, name: 'Tablet', price: '$499', inStock: true },
+  ]);
 
-  // TODO: Implement state to manage filtering
+  // State to manage filtering
+  const [filter, setFilter] = useState('all');
 
-  // TODO: Implement logic to filter products based on availability
+  // Filter products based on availability
+  const filteredProducts = filter === 'inStock'
+    ? products.filter((p) => p.inStock)
+    : products;
+
+  // Remove a product by id
+  const removeProduct = (id) => {
+    setProducts(products.filter((p) => p.id !== id));
+  };
 
   return (
     <div>
-      <h1>{/* TODO: Add 'Product Dashboard' title here */}</h1>
-      
-      {/* TODO: Add buttons to allow filtering by availability */}
+      <h1>Product Dashboard</h1>
 
-      {/* TODO: Render the ProductList component and pass filtered products */}
-      
+      {/* Buttons to filter by availability */}
+      <button onClick={() => setFilter('all')}>All</button>
+      <button onClick={() => setFilter('inStock')}>In Stock</button>
+
+      {/* Render ProductList with filtered products */}
+      <ProductList products={filteredProducts} removeProduct={removeProduct} />
     </div>
   );
 };
